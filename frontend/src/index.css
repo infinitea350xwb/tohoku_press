@@ -1,0 +1,286 @@
+@import "tailwindcss";
+
+@theme {
+  --color-border: hsl(var(--border));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-card: hsl(var(--card));
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-subtle: pulse-subtle 4s ease-in-out infinite;
+  --animate-fade-in: fade-in 0.7s ease-out forwards;
+  --animate-fade-in-delay-1: fade-in 0.7s ease-out 0.2s forwards;
+  --animate-fade-in-delay-2: fade-in 0.7s ease-out 0.4s forwards;
+  --animate-fade-in-delay-3: fade-in 0.7s ease-out 0.6s forwards;
+  --animate-fade-in-delay-4: fade-in 0.7s ease-out 0.8s forwards;
+  --animate-meteor: meteor 5s linear infinite;
+  --animate-slide-in-left: slide-in-left 0.9s ease-out forwards;
+  --animate-slide-in-right: slide-in-right 0.9s ease-out forwards;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes pulse-subtle {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slide-in-left {
+    from {
+      opacity: 0;
+      transform: translateX(-40px) scaleX(var(--text-flow-scale-x, 1));
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0) scaleX(var(--text-flow-scale-x, 1));
+    }
+  }
+
+  @keyframes slide-in-right {
+    from {
+      opacity: 0;
+      transform: translateX(40px) scaleX(var(--text-flow-scale-x, 1));
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0) scaleX(var(--text-flow-scale-x, 1));
+    }
+  }
+
+  @keyframes meteor {
+    0% {
+      transform: rotate(215deg) translateX(0);
+      opacity: 1;
+    }
+    70% {
+      opacity: 1;
+    }
+    100% {
+      transform: rotate(215deg) translateX(-500px);
+      opacity: 0;
+    }
+  }
+}
+
+@layer base {
+  :root {
+    --background: 40 30% 94%;       /* beige background */
+    --foreground: 0 0% 10%;         /* near black text */
+
+    --card: 0 0% 100%;              /* white card */
+
+    --primary: 0 0% 20%;            /* dark grey as primary */
+    --primary-foreground: 0 0% 100%;/* white text */
+
+    --border: 0 0% 60%;             /* medium grey border */
+    --text-flow-scale-x: 1;
+  }
+
+  .dark {
+    --background: 0 0% 10%;          /* near black background */
+    --foreground: 0 0% 95%;          /* near white text */
+
+    --card: 0 0% 15%;                /* dark grey card */
+
+    --primary: 40 30% 94%;           /* beige primary */
+    --primary-foreground: 0 0% 10%;  /* near black text */
+
+    --border: 0 0% 40%;              /* dark grey border */
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground transition-colors duration-300;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+
+  @media (width >= 640px) {
+    max-width: 640px;
+  }
+  @media (width >= 768px) {
+    max-width: 768px;
+  }
+  @media (width >= 1024px) {
+    max-width: 1024px;
+  }
+  @media (width >= 1280px) {
+    max-width: 1280px;
+  }
+  @media (width >= 1400px) {
+    max-width: 1400px;
+  }
+}
+
+@utility text-glow {
+  @apply relative;
+  text-shadow: 0 0 10px rgba(167, 139, 250, 0.5);
+}
+
+@utility text-flow-left {
+    opacity: 0;
+    animation: slide-in-left 2.0s ease-out forwards;
+  }
+
+@utility text-flow-right {
+  opacity: 0;
+  animation: slide-in-right 2.0s ease-out forwards;
+}
+
+@utility text-flip-horizontal {
+  --text-flow-scale-x: -1;
+  display: inline-block;
+  transform: scaleX(var(--text-flow-scale-x));
+  transform-origin: center;
+}
+
+@utility text-highlight {
+  @apply relative inline-block;
+  --highlight-color: black;       /* default background highlight color */
+  --highlight-thickness: 0.8em;   /* thickness relative to font size */
+  --highlight-offset: 0;          /* vertical offset */
+  color: var(--highlight-text, white); /* text color (default white) */
+}
+
+@utility card-hover {
+  @apply transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg;
+}
+
+@utility gradient-border {
+  @apply relative rounded-md;
+  background: linear-gradient(to right, hsl(var(--card)), hsl(var(--card)));
+  background-clip: padding-box;
+  border: 1px solid transparent;
+}
+
+
+@utility cosmic-button {
+  @apply px-6 py-2 rounded-full bg-primary text-primary-foreground font-medium 
+         transition-all duration-300 hover:shadow-[0_0_10px_rgba(139,92,246,0.5)]
+         hover:scale-105 active:scale-95;
+}
+
+@utility solid-button {
+  @apply px-6 py-2 font-medium rounded-md;
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  transition: all 0.3s ease;
+}
+
+@utility banner-line {
+  @apply relative block mx-auto text-center font-bold py-2;
+  width: 75vw;            /* 3/4 of viewport width */
+  max-width: 100%;
+  border-top: 1px solid hsl(var(--border));
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.solid-button:hover {
+  opacity: 0.85;
+}
+
+@utility star {
+  @apply absolute rounded-full bg-white;
+  box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.4);
+}
+
+@utility meteor {
+  @apply absolute bg-linear-to-r from-white via-white to-transparent rounded-full;
+  box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.3);
+}
+
+#root {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+}
+
+@layer utilities {
+  .text-cut {
+    @apply relative block text-center font-bold;
+    font-size: clamp(2rem, 8vw, 6rem);
+    line-height: 1.2;
+  }
+
+  .text-cut::after {
+    content: "";
+    @apply absolute left-0 right-0 bg-black;
+    height: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .text-strikethrough {
+    @apply relative inline-block;
+    --strike-color: currentColor;        /* default: match text color */
+    --strike-thickness: 0.12em;          /* line thickness; override if needed */
+    --strike-offset: 0;                  /* vertical offset (positive pushes downward) */
+  }
+
+  .text-strikethrough::after {
+    content: "";
+    @apply absolute left-0 right-0;
+    top: 50%;
+    height: var(--strike-thickness);
+    transform: translateY(-50%) translateY(var(--strike-offset));
+    background: var(--strike-color);
+    pointer-events: none;
+  }
+
+  .text-highlight {
+    @apply relative inline-block;
+    --highlight-thickness: 0.8em;   /* thickness relative to font size */
+    --highlight-offset: 0;          /* vertical offset */
+    color: var(--highlight-text, white);
+    background-color: var(--highlight-color, black);
+  }
+
+  .text-highlight::after {
+    content: "";
+    @apply absolute left-0 right-0;
+    top: 50%;
+    height: var(--highlight-thickness);
+    transform: translateY(-50%) translateY(var(--highlight-offset));
+    background: var(--highlight-color);
+    z-index: -1; /* put the bar behind the text */
+  }
+}
